@@ -50,7 +50,7 @@ const loadTable = (min, max, n, f) => {
     for (let i = 0; i < n; i++) {
         let currentY = f(currentX, min, max);
 
-        sum += (dx * currentY);
+        sum += (dx * currentY) / (max - min);
         currentX += dx;
 
         tableBody.innerHTML += `<tr><td>${currentX.toFixed(4)}</td><td>${sum.toFixed(4)}</td></tr>`
