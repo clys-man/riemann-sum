@@ -11,14 +11,29 @@
 <body>
     <main>
         <h1>Soma de Riemann</h1>
-        <form>Tipo: <select id="type">
-                <option value='vl' selected> Velocidade
-                <option value='ac'> Aceleração
-            </select></form>
-        <div>
+        <div id="buttons">
+            <form>Tipo: <select id="type">
+                    <option value='vl' selected> Velocidade
+                    <option value='ac'> Aceleração
+                </select></form>
+            <button class="button" onclick="loadAll()">Iniciar</button>
+        </div>
+        <div id="content">
             <div id="box" class="jxgbox"
                 style="width:800px; height:400px; overflow:hidden; /*position:absolute; top:0px; left:0px;*/"></div>
             <div id="debug" style="display:block;"></div>
+            <table id="sumTable">
+                <thead>
+                    <tr>
+                        <th scope="row" style="width: 100%;">Resultados</th>
+                    </tr>
+                    <tr>
+                        <th>X</th>
+                        <th>Soma</th>
+                    </tr>
+                </thead>
+                <tbody id="sumTableBody"></tbody>
+            </table>
         </div>
 
     </main>

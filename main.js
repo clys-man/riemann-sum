@@ -1,4 +1,8 @@
-const type = document.getElementById('type').value;
+const tableBody = document.getElementById('sumTableBody');
+
+const _min = 0;
+const _max = 34;
+const _n = 100;
 
 const vl = (x) => {
     return 0 * Math.pow(x, 8) + 0 * Math.pow(x, 7) + 0.0009 * Math.pow(x, 6) - 0.0259 * Math.pow(x, 5) + 0.4227 * Math.pow(x, 4) - 3.9655 * Math.pow(x, 3) + 20.3082 * Math.pow(x, 2) - 48.729 * x + 36.3774 - 2.6;
@@ -9,17 +13,17 @@ const ac = (x) => {
 }
 
 const loadChart = (min, max, n, f, animated = false) => {
-    let brd = JXG.JSXGraph.initBoard('box', { axis: true, originX: 400, originY: 300, grid: true, unitX: 25, unitY: 25 });
+    let brd = JXG.JSXGraph.initBoard('box', { axis: true, originX: 350, originY: 300, grid: true, unitX: 25, unitY: 25 });
     let s = brd.create('slider', [[-12, 3], [-4, 3], [0, 0, n]], { name: 'n', snapWidth: 1, withLabel: true });
     let a = brd.create('slider', [[-12, 2], [-4, 2], [-10, 0, min]], { name: 'start', snapWidth: 0.25 });
     let b = brd.create('slider', [[-12, 1], [-4, 1], [min, 34, max]], { name: 'end' });
+    let start = brd.create('button', [-12, 4, 'iniciar', function() { s.startAnimation(1, 100, 20) }]);
+    let stop = brd.create('button', [-10, 4, 'parar', function() { s.stopAnimation() }]);
     let plot = brd.create('functiongraph', [f, () => a.Value(), () => b.Value()]);
     brd.unsuspendUpdate();
 
     if (animated) {
         s.startAnimation(1, 100, 30);
-    } else {
-        s.stopAnimation();
     }
 
     let os = brd.create('riemannsum', [
@@ -43,4 +47,26 @@ const loadChart = (min, max, n, f, animated = false) => {
     ], { fontSize: 40 });
 }
 
-loadChart(0, 34, 100, vl);
+const loadTable = (min, max, n, f) => {
+    let sum = 0;
+    let dx = (max - min) / n;
+    let currentX = min + dx / 2;
+    for (let i = 0; i < n; i++) {
+        let currentY = f(currentX, min, max);
+
+        sum += (dx * currentY);
+        currentX += dx;
+
+        tableBody.innerHTML += `<tr><td>${currentX.toFixed(4)}</td><td>${sum.toFixed(4)}</td></tr>`
+    }
+}
+
+const loadAll = (i, delay) => {
+    tableBody.innerHTML = '';
+
+    const type = document.getElementById('type').value;
+    let f = type == 'vl' ? vl : ac;
+
+    loadTable(_min, _max, _n, f);
+    loadChart(_min, _max, _n, f, true);
+};
