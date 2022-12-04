@@ -1,9 +1,5 @@
 const tableBody = document.getElementById('sumTableBody');
 
-const _min = 0;
-const _max = 34;
-const _n = 100;
-
 const vl = (x) => {
     return 0 * Math.pow(x, 8) + 0 * Math.pow(x, 7) + 0.0009 * Math.pow(x, 6) - 0.0259 * Math.pow(x, 5) + 0.4227 * Math.pow(x, 4) - 3.9655 * Math.pow(x, 3) + 20.3082 * Math.pow(x, 2) - 48.729 * x + 36.3774 - 2.6;
 }
@@ -61,12 +57,15 @@ const loadTable = (min, max, n, f) => {
     }
 }
 
-const loadAll = (i, delay) => {
-    tableBody.innerHTML = '';
+const loadAll = () => {
+    const min = 0;
+    const max = 34;
+    const n = 100;
 
     const type = document.getElementById('type').value;
     let f = type == 'vl' ? vl : ac;
 
-    loadTable(_min, _max, _n, f);
-    loadChart(_min, _max, _n, f, true);
+    tableBody.innerHTML = '';
+    loadTable(min, max, n, f);
+    loadChart(min, max, n, f, true);
 };
